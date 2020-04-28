@@ -1,11 +1,9 @@
 package com.tonikolaba.springvuejsXstarter.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Collections;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  * Created by NdueKolaba on 13-Jan-19.
@@ -27,6 +25,11 @@ public class Customer {
 
     @Column(name = "active")
     private boolean active;
+
+    @Column(name = "albums")
+    @ElementCollection
+    @CollectionTable(name="albums", joinColumns=@JoinColumn(name="id"))
+    private Set<UUID> albums;
 
     public Customer() {
     }
@@ -63,6 +66,17 @@ public class Customer {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public Set<UUID> getAlbums() {
+        return albums;
+    }
+
+    public void addAlbum(UUID album) {
+        if (this.albums == null) {
+            this.albums = Collections.emptySet();
+        }
+        this.albums.add(album);
     }
 
     @Override

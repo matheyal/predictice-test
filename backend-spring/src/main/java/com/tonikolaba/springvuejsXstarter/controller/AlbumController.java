@@ -11,10 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController

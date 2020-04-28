@@ -14,11 +14,12 @@ import java.util.UUID;
 )
 public class Album {
     @Id
+    @Field(type = FieldType.Keyword)
     private UUID id;
 
     @Field(type = FieldType.Text)
     private String title;
-    @Field(type = FieldType.Keyword)
+    @Field(type = FieldType.Text)
     private String artist;
     @Field(type = FieldType.Integer)
     private Integer releaseYear;

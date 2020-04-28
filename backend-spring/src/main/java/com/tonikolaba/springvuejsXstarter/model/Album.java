@@ -6,7 +6,6 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.net.URL;
-import java.util.Date;
 import java.util.UUID;
 
 @Document(
@@ -21,10 +20,21 @@ public class Album {
     private String title;
     @Field(type = FieldType.Keyword)
     private String artist;
-    @Field(type = FieldType.Date)
-    private Date releaseDate;
+    @Field(type = FieldType.Integer)
+    private Integer releaseYear;
     @Field(type = FieldType.Keyword)
-    private URL coverURL;
+    private String coverURL;
+
+    public Album() {
+    }
+
+    public Album(String title, String artist, Integer releaseYear, String coverURL) {
+        this.id = UUID.randomUUID();
+        this.title = title;
+        this.artist = artist;
+        this.releaseYear = releaseYear;
+        this.coverURL = coverURL;
+    }
 
     public UUID getId() {
         return id;
@@ -49,19 +59,19 @@ public class Album {
         this.artist = artist;
     }
 
-    public URL getCoverURL() {
+    public String getCoverURL() {
         return coverURL;
     }
 
-    public Date getReleaseDate() {
-        return releaseDate;
+    public Integer getReleaseYear() {
+        return releaseYear;
     }
 
-    public void setReleaseDate(Date releaseDate) {
-        this.releaseDate = releaseDate;
+    public void setReleaseYear(Integer releaseYear) {
+        this.releaseYear = releaseYear;
     }
 
-    public void setCoverURL(URL coverURL) {
+    public void setCoverURL(String coverURL) {
         this.coverURL = coverURL;
     }
 }

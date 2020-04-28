@@ -1,6 +1,7 @@
 package com.tonikolaba.springvuejsXstarter.controller;
 
 import com.tonikolaba.springvuejsXstarter.dto.AlbumDTO;
+import com.tonikolaba.springvuejsXstarter.dto.SearchQuery;
 import com.tonikolaba.springvuejsXstarter.model.Album;
 import com.tonikolaba.springvuejsXstarter.repository.AlbumRepository;
 import com.tonikolaba.springvuejsXstarter.service.AlbumService;
@@ -43,7 +44,7 @@ public class AlbumController {
     }
 
     @PostMapping("/search")
-    public Page<AlbumDTO> search(@RequestBody String query) {
+    public Page<AlbumDTO> search(@RequestBody SearchQuery query) {
         return this.albumService.search(query).map(AlbumDTO::new);
     }
 

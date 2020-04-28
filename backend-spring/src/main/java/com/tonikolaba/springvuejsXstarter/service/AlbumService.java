@@ -1,5 +1,6 @@
 package com.tonikolaba.springvuejsXstarter.service;
 
+import com.tonikolaba.springvuejsXstarter.dto.SearchQuery;
 import com.tonikolaba.springvuejsXstarter.model.Album;
 import com.tonikolaba.springvuejsXstarter.repository.AlbumRepository;
 import org.elasticsearch.index.query.Operator;
@@ -17,6 +18,8 @@ import java.util.UUID;
 
 @Service
 public class AlbumService {
+
+    private static int MAX_PAGE_SIZE = 30;
 
     @Autowired
     private AlbumRepository albumRepository;
@@ -36,16 +39,17 @@ public class AlbumService {
         return this.albumRepository.save(album);
     }
 
-    public Page<Album> search(String query) {
+    public Page<Album> search(SearchQuery query) {
         QueryBuilder searchQuery = QueryBuilders.boolQuery().must(
-                QueryBuilders.queryStringQuery(query)
+                QueryBuilders.queryStringQuery(query.query)
                         .defaultOperator(Operator.AND)
                         .field("id")
                         .field("title")
                         .field("artist")
         );
-
-        return this.albumRepository.search(searchQuery, PageRequest.of(0, 20));
+        int page = Math.max(query.page, 0);
+        int pageSize = Math.min(query.pageSize, MAX_PAGE_SIZE);
+        return this.albumRepository.search(searchQuery, PageRequest.of(page, pageSize));
     }
 
 }

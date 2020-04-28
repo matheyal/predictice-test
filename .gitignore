@@ -1,3 +1,10 @@
+.idea/
+backend-spring/target/
+frontend-vue/node/
 
 frontend-vue/src/components/HelloWorld.vue
 frontend-vue/src/components/HelloWorld.vue
+.idea/
+backend-spring/target/
+*.iml
+frontend-vue/node/

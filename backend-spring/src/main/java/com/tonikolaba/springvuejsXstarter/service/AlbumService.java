@@ -6,6 +6,8 @@ import com.tonikolaba.springvuejsXstarter.repository.AlbumRepository;
 import org.elasticsearch.index.query.Operator;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.search.MatchQuery;
+import org.elasticsearch.index.search.MultiMatchQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -43,9 +45,9 @@ public class AlbumService {
         if (query.query.isEmpty()) {
             textQuery = QueryBuilders.matchAllQuery();
         } else {
-            textQuery = QueryBuilders.queryStringQuery(query.query)
-                    .defaultOperator(Operator.AND)
-                    .field("id")
+            textQuery = QueryBuilders.multiMatchQuery(query.query)
+                    .fuzziness("AUTO")
+                    .prefixLength(2)
                     .field("title")
                     .field("artist");
         }

@@ -3,18 +3,26 @@
     <h4>Albums List</h4>
     <div class="row">
       <div class="col-md-6">
-        <b-form-input v-model="query" placeholder="Search an album"></b-form-input>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-
-        <ul>
-          <ol v-for="(album, index) in albums" :key="index">
-            <font-awesome-icon icon="compact-disc"/>
-            {{album.title}}
-          </ol>
-        </ul>
+        <div class="row my-2">
+          <b-form-input v-model="query" placeholder="Search an album"></b-form-input>
+        </div>
+        <div class="row albums-list">
+          <ul>
+            <ol v-for="(album, index) in albums" :key="index" class="my-1">
+              <font-awesome-icon icon="compact-disc"/>
+              {{album.title}}
+            </ol>
+          </ul>
+        </div>
+        <div class="row" v-if="albums && albums.length > 0">
+          <b-pagination
+            v-model="page"
+            align="center"
+            :total-rows="totalElements"
+            :per-page="pageSize"
+            v-on:change="retrieveAlbums(query, $event)"
+          ></b-pagination>
+        </div>
       </div>
       <div class="col-md-6">
         <router-view @refreshData="refreshList"></router-view>
@@ -32,22 +40,21 @@
       return {
         albums: [],
         query: "",
-        page: 0,
-        totalPages: 1
+        page: 1,
+        totalElements: 1,
+        pageSize: 10
       };
     },
     methods: {
       retrieveAlbums(query, page) {
         let data = {
           query: query || "",
-          page: (page && page > 0) ? page : 0
+          page: (page && page > 1) ? page - 1 : 0
         }
         http.post("/albums/search", data)
           .then(response => {
-            console.log(response.data);
             this.albums = response.data.content;
-            this.page = response.data.number;
-            this.totalPages = response.data.totalPages;
+            this.totalElements = response.data.totalElements;
           })
           .catch(e => {
             console.error(e);

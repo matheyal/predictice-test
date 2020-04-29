@@ -40,13 +40,18 @@ public class AlbumService {
     }
 
     public Page<Album> search(SearchQuery query) {
-        QueryBuilder searchQuery = QueryBuilders.boolQuery().must(
-                QueryBuilders.queryStringQuery(query.query)
-                        .defaultOperator(Operator.AND)
-                        .field("id")
-                        .field("title")
-                        .field("artist")
-        );
+        QueryBuilder textQuery;
+        if (query.query.isEmpty()) {
+            textQuery = QueryBuilders.matchAllQuery();
+        } else {
+            textQuery = QueryBuilders.queryStringQuery(query.query)
+                    .defaultOperator(Operator.AND)
+                    .field("id")
+                    .field("title")
+                    .field("artist");
+        }
+        QueryBuilder searchQuery = QueryBuilders.boolQuery()
+                .must(textQuery);
         int page = Math.max(query.page, 0);
         int pageSize = Math.min(query.pageSize, MAX_PAGE_SIZE);
         return this.albumRepository.search(searchQuery, PageRequest.of(page, pageSize));

@@ -4,6 +4,7 @@ import CustomersList from "./components/CustomersList.vue";
 import AddCustomer from "./components/AddCustomer.vue";
 import SearchCustomers from "./components/SearchCustomers.vue";
 import Customer from "./components/Customer.vue";
+import AlbumsList from "./components/AlbumsList";
 
 Vue.use(Router);
 
@@ -23,6 +24,11 @@ export default new Router({
           props: true
         }
       ]
+    },
+    {
+      path: "/albums",
+      name: "albums",
+      component: AlbumsList
     },
     {
       path: "/add",

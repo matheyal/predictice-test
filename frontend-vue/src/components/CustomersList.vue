@@ -1,22 +1,24 @@
 <template>
-  <div class="list row">
-    <div class="col-md-6">
-      <h4>Customers List</h4>
-      <ul>
+  <div>
+    <h4>Customers List</h4>
+    <div class="row">
+      <div class="col-md-6">
 
-        <ol v-for="(customer, index) in customers" :key="index">
-          <router-link :to="{
+        <ul>
+          <ol v-for="(customer, index) in customers" :key="index">
+            <router-link :to="{
                             name: 'customer-details',
                             params: { customer: customer, id: customer.id }
                         }">
-            <font-awesome-icon icon="user"/>
-            {{customer.name}}
-          </router-link>
-        </ol>
-      </ul>
-    </div>
-    <div class="col-md-6">
-      <router-view @refreshData="refreshList"></router-view>
+              <font-awesome-icon icon="user"/>
+              {{customer.name}}
+            </router-link>
+          </ol>
+        </ul>
+      </div>
+      <div class="col-md-6">
+        <router-view @refreshData="refreshList"></router-view>
+      </div>
     </div>
   </div>
 </template>
@@ -57,10 +59,4 @@
 </script>
 
 <style>
-
-  .list {
-    text-align: left;
-    max-width: 450px;
-    margin: auto;
-  }
 </style>

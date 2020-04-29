@@ -1,11 +1,11 @@
 <template>
-  <div id="app" class="container-fluid">
+  <div id="app" class="container">
     <nav class="btn btn-group">
       <router-link class="btn btn-primary" to="/">
         <font-awesome-icon icon="users"/>
         Customers
       </router-link>
-      <router-link class="btn btn-primary" to="/">
+      <router-link class="btn btn-primary" to="/albums">
         <font-awesome-icon icon="compact-disc"/>
         Albums
       </router-link>

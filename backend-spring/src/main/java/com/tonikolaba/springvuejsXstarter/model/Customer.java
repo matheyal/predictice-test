@@ -28,7 +28,7 @@ public class Customer {
 
     @Column(name = "albums")
     @ElementCollection
-    @CollectionTable(name="albums", joinColumns=@JoinColumn(name="id"))
+    @CollectionTable(name = "albums", joinColumns = @JoinColumn(name = "id"))
     private Set<UUID> albums;
 
     public Customer() {

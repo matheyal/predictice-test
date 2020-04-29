@@ -11,7 +11,8 @@ public class AlbumDTO {
     public Integer releaseYear;
     public String coverURL;
 
-    public AlbumDTO() {}
+    public AlbumDTO() {
+    }
 
     public AlbumDTO(Album album) {
         this.id = album.getId();

@@ -29,7 +29,6 @@ body {
 }
 
 
-
 .navbar-default .navbar-brand {
   color: #fff;
 }
@@ -41,6 +40,7 @@ body {
 .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
   background-color: #fff;
 }
+
 .navbar-default .navbar-toggle {
   border-color: #349aed;
 }
@@ -75,27 +75,24 @@ img {
 }
 
 
-
-
-
-
-
-
-
 .navbar-toggle:not(:disabled):not(.disabled) {
   cursor: pointer;
 }
+
 .avbar-default .navbar-toggle {
   color: rgba(255, 255, 255, 0.75);
   border-color: rgba(255, 255, 255, 0.1);
 }
+
 .navbar-toggle:hover, .navbar-toggle:focus {
   text-decoration: none;
 }
+
 button:focus {
   outline: 1px dotted;
   outline: 5px auto -webkit-focus-ring-color;
 }
+
 .navbar-toggle {
   padding: 0.25rem 0.75rem;
   font-size: 1.015625rem;
@@ -108,9 +105,11 @@ button:focus {
   border-left-color: transparent;
   border-radius: 0.25rem;
 }
+
 button, [type="button"], [type="reset"], [type="submit"] {
   -webkit-appearance: button;
 }
+
 body, input, button {
   -webkit-font-smoothing: antialiased;
   letter-spacing: .1px;
@@ -119,23 +118,21 @@ body, input, button {
 button, select {
   text-transform: none;
 }
+
 button, input {
   overflow: visible;
 }
+
 input, button, select, optgroup, textarea {
   margin: 0;
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
 }
+
 button {
   border-radius: 0;
 }
-
-
-
-
-
 
 
 .nav > li > a:hover, .nav > li > a:focus {
@@ -143,7 +140,6 @@ button {
   background-color: #eee;
   //background-color: rgba(255, 255, 255, 0.36);
 }
-
 
 
 .navbar-toggle:not(:disabled):not(.disabled) {
@@ -170,7 +166,7 @@ button {
 
 #idsfondi {
 
-  background:linear-gradient(145deg, #349aed 50%, #34d8ed 100%);
+  background: linear-gradient(145deg, #349aed 50%, #34d8ed 100%);
 
   //(90deg, #1D976C 10%, #93F9B9 90%);
 

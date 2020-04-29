@@ -10,7 +10,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
  */
 
 @SpringBootApplication
-public class springvuejsXstarter extends SpringBootServletInitializer{
+public class springvuejsXstarter extends SpringBootServletInitializer {
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {

@@ -8,31 +8,31 @@ import Customer from "./components/Customer.vue";
 Vue.use(Router);
 
 export default new Router({
-    mode: "history",
-    routes: [
+  mode: "history",
+  routes: [
+    {
+      path: "/",
+      name: "customers",
+      alias: "/customer",
+      component: CustomersList,
+      children: [
         {
-            path: "/",
-            name: "customers",
-            alias: "/customer",
-            component: CustomersList,
-            children: [
-                {
-                    path: "/customer/:id",
-                    name: "customer-details",
-                    component: Customer,
-                    props: true
-                }
-            ]
-        },
-        {
-            path: "/add",
-            name: "add",
-            component: AddCustomer
-        },
-        {
-            path: "/search",
-            name: "search",
-            component: SearchCustomers
+          path: "/customer/:id",
+          name: "customer-details",
+          component: Customer,
+          props: true
         }
-    ]
+      ]
+    },
+    {
+      path: "/add",
+      name: "add",
+      component: AddCustomer
+    },
+    {
+      path: "/search",
+      name: "search",
+      component: SearchCustomers
+    }
+  ]
 });

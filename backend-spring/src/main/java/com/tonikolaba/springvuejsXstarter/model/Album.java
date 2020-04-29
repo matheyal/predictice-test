@@ -8,7 +8,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.util.UUID;
 
 @Document(
-        indexName="album",
+        indexName = "album",
         replicas = 0
 )
 public class Album {
@@ -43,6 +43,7 @@ public class Album {
     public void setId(UUID id) {
         this.id = id;
     }
+
     public String getTitle() {
         return title;
     }

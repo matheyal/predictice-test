@@ -9,7 +9,6 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.net.MalformedURLException;
@@ -19,7 +18,7 @@ import java.util.UUID;
 @Service
 public class AlbumService {
 
-    private static int MAX_PAGE_SIZE = 30;
+    private static final int MAX_PAGE_SIZE = 30;
 
     @Autowired
     private AlbumRepository albumRepository;

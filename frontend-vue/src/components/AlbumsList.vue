@@ -4,24 +4,27 @@
     <div class="row">
       <div class="col-md-6">
         <div class="row my-2">
-          <b-form-input v-model="query" placeholder="Search an album"></b-form-input>
+          <b-form-input v-model="query" v-on:input="search($event)"
+                        placeholder="Search an album"></b-form-input>
         </div>
-        <div class="row albums-list">
-          <ul>
-            <ol v-for="(album, index) in albums" :key="index" class="my-1">
-              <font-awesome-icon icon="compact-disc"/>
-              {{album.title}}
-            </ol>
-          </ul>
-        </div>
-        <div class="row" v-if="albums && albums.length > 0">
-          <b-pagination
-            v-model="page"
-            align="center"
-            :total-rows="totalElements"
-            :per-page="pageSize"
-            v-on:change="retrieveAlbums(query, $event)"
-          ></b-pagination>
+        <div v-if="albums && albums.length > 0">
+          <div class="row albums-list">
+            <ul>
+              <ol v-for="(album, index) in albums" :key="index" class="my-1">
+                <font-awesome-icon icon="compact-disc"/>
+                {{album.title}}
+              </ol>
+            </ul>
+          </div>
+          <div class="row">
+            <b-pagination
+              v-model="page"
+              align="center"
+              :total-rows="totalElements"
+              :per-page="pageSize"
+              v-on:change="retrieveAlbums(query, $event)"
+            ></b-pagination>
+          </div>
         </div>
       </div>
       <div class="col-md-6">
@@ -33,6 +36,7 @@
 
 <script>
   import http from "../http-common";
+  import _ from "lodash";
 
   export default {
     name: "albums-list",
@@ -42,11 +46,18 @@
         query: "",
         page: 1,
         totalElements: 1,
-        pageSize: 10
+        pageSize: 10,
+        loading: false
       };
+    },
+    created() {
+      this.search = _.debounce((query) => {
+        this._search(query)
+      }, 500);
     },
     methods: {
       retrieveAlbums(query, page) {
+        this.loading = true;
         let data = {
           query: query || "",
           page: (page && page > 1) ? page - 1 : 0
@@ -58,7 +69,18 @@
           })
           .catch(e => {
             console.error(e);
+          })
+          .finally(() => {
+            this.loading = false;
           });
+      },
+      _search(query) {
+        if (query.length > 0 && query.length <= 2) {
+          return;
+        }
+        this.page = 1;
+        console.log(query);
+        this.retrieveAlbums(query, this.page);
       },
       refreshList() {
         this.retrieveAlbums();

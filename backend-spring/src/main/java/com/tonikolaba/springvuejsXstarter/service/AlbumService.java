@@ -3,11 +3,8 @@ package com.tonikolaba.springvuejsXstarter.service;
 import com.tonikolaba.springvuejsXstarter.dto.SearchQuery;
 import com.tonikolaba.springvuejsXstarter.model.Album;
 import com.tonikolaba.springvuejsXstarter.repository.AlbumRepository;
-import org.elasticsearch.index.query.Operator;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.index.search.MatchQuery;
-import org.elasticsearch.index.search.MultiMatchQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,7 +26,7 @@ public class AlbumService {
         if (album.getTitle() == null || album.getArtist() == null || album.getReleaseYear() == null) {
             throw new IllegalArgumentException("Missing required fields");
         }
-        if (album.getCoverURL() != null) {
+        if (album.getCoverURL() != null && !album.getCoverURL().isEmpty()) {
             try {
                 new URL(album.getCoverURL());
             } catch (MalformedURLException e) {

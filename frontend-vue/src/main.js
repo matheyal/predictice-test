@@ -6,6 +6,8 @@ import VueGitHubButtons from 'vue-github-buttons'
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {fas} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
+import Toasted from 'vue-toasted';
+
 // Stylesheet
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
@@ -18,6 +20,7 @@ library.add(fas)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.use(BootstrapVue);
+Vue.use(Toasted)
 Vue.use(VueGitHubButtons, {useCache: false});
 
 /* eslint-disable no-new*/

@@ -1,22 +1,43 @@
 <template>
   <div>
-    <h4>Albums List</h4>
-    <div class="row">
-      <div class="col-md-6">
+    <div class="row justify-content-center">
+      <div class="col-md-10">
+        <div class="row justify-content-between">
+          <h4>Albums List</h4>
+          <b-button variant="primary" v-on:click="">
+            <font-awesome-icon icon="plus"/>
+            Add album
+          </b-button>
+        </div>
         <div class="row my-2">
           <b-form-input v-model="query" v-on:input="search($event)"
                         placeholder="Search an album"></b-form-input>
         </div>
         <div v-if="albums && albums.length > 0">
-          <div class="row albums-list">
-            <ul>
-              <ol v-for="(album, index) in albums" :key="index" class="my-1">
-                <font-awesome-icon icon="compact-disc"/>
-                {{album.title}}
-              </ol>
-            </ul>
-          </div>
-          <div class="row">
+          <b-card-group columns class="row">
+            <b-card
+              v-for="album in albums"
+              :title="album.title"
+              title-tag="h5"
+              :img-src="album.coverURL"
+              img-top
+              class="album-card"
+            >
+              <b-card-text>
+                {{ album.artist }}<br>
+                {{ album.releaseYear }}
+              </b-card-text>
+              <div class="row justify-content-end">
+                <b-dropdown size="sm" variant="outline-danger" no-caret>
+                  <template v-slot:button-content>
+                    <font-awesome-icon icon="trash"/>
+                  </template>
+                  <b-dropdown-item v-on:click="deleteAlbum(album.id)">Sure?</b-dropdown-item>
+                </b-dropdown>
+              </div>
+            </b-card>
+          </b-card-group>
+          <div class="row justify-content-center">
             <b-pagination
               v-model="page"
               align="center"
@@ -25,6 +46,9 @@
               v-on:change="retrieveAlbums(query, $event)"
             ></b-pagination>
           </div>
+        </div>
+        <div v-else class="row justify-content-center">
+          <p class="my-5">Sorry, no results there...</p>
         </div>
       </div>
       <div class="col-md-6">
@@ -46,7 +70,7 @@
         query: "",
         page: 1,
         totalElements: 1,
-        pageSize: 10,
+        pageSize: 9,
         loading: false
       };
     },
@@ -60,7 +84,8 @@
         this.loading = true;
         let data = {
           query: query || "",
-          page: (page && page > 1) ? page - 1 : 0
+          page: (page && page > 1) ? page - 1 : 0,
+          pageSize: this.pageSize
         }
         http.post("/albums/search", data)
           .then(response => {
@@ -83,7 +108,16 @@
         this.retrieveAlbums(query, this.page);
       },
       refreshList() {
-        this.retrieveAlbums();
+        this.retrieveAlbums(this.query, this.page);
+      },
+      deleteAlbum(id) {
+        http.delete(`/albums/${id}`)
+          .then(() => {
+            this.refreshList()
+          })
+          .catch(e => {
+            console.error(e);
+          })
       }
     },
     mounted() {
@@ -93,4 +127,7 @@
 </script>
 
 <style>
+  .album-card {
+    max-width: 300px;
+  }
 </style>

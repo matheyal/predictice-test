@@ -9,14 +9,6 @@
         <font-awesome-icon icon="compact-disc"/>
         Albums
       </router-link>
-      <router-link class="btn btn-primary" to="/add">
-        <font-awesome-icon icon="user-plus"/>
-        Add
-      </router-link>
-      <router-link class="btn btn-primary" to="/search">
-        <font-awesome-icon icon="search"/>
-        Search
-      </router-link>
     </nav>
     <hr class="hr"/>
     <br/>

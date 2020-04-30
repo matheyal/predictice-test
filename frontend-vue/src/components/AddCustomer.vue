@@ -57,7 +57,7 @@
         };
 
         http
-          .post("/customer", data)
+          .post("/customers", data)
           .then(response => {
             this.customer.id = response.data.id;
             console.log(response.data);

@@ -58,25 +58,52 @@
         };
 
         http
-          .put("/customer/" + this.customer.id, data)
+          .patch(`/customers/${this.customer.id}`, data)
           .then(response => {
             this.customer.active = response.data.active;
-            console.log(response.data);
+            this.$toasted.show(
+              "Customer successfully updated!",
+              { duration: 3000, type: "success" }
+            );
           })
           .catch(e => {
-            console.log(e);
+            console.error(e);
+            this.$toasted.show(
+              "Oops! An error occurred...",
+              {
+                type: "error",
+                action : {
+                  text : 'OK',
+                  onClick : (e, toastObject) => { toastObject.goAway(0);}
+                }
+              }
+            );
           });
       },
       deleteCustomer() {
         http
-          .delete("/customer/" + this.customer.id)
+          .delete("/customers/" + this.customer.id)
           .then(response => {
             console.log(response.data);
+            this.$toasted.show(
+              "Customer successfully deleted!",
+              { duration: 3000, type: "success" }
+            );
             this.$emit("refreshData");
             this.$router.push('/');
           })
           .catch(e => {
             console.log(e);
+            this.$toasted.show(
+              "Oops! An error occurred...",
+              {
+                type: "error",
+                action : {
+                  text : 'OK',
+                  onClick : (e, toastObject) => { toastObject.goAway(0);}
+                }
+              }
+            );
           });
       }
       /* eslint-enable no-console */

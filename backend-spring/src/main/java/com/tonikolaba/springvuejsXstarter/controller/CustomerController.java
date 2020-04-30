@@ -62,7 +62,7 @@ public class CustomerController {
         return customers;
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<Customer> updateCustomer(@PathVariable("id") long id, @RequestBody Customer customer) {
         System.out.println("Update Customer with ID = " + id + "...");
 

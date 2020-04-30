@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="px-5">
     <div class="row justify-content-center">
-      <div class="col-md-10">
+      <div class="col-md-12">
         <div class="row justify-content-between">
           <h4>Albums List</h4>
           <b-button variant="primary" v-b-modal.add-album-modal>
@@ -9,12 +9,12 @@
             Add album
           </b-button>
         </div>
-        <div class="row my-2">
+        <div class="row my-3">
           <b-form-input v-model="query" v-on:input="search($event)"
                         placeholder="Search an album"></b-form-input>
         </div>
         <div v-if="albums && albums.length > 0">
-          <b-card-group columns class="row">
+          <b-card-group columns class="row justify-content-center">
             <b-card
               v-for="album in albums"
               v-bind:key="album.id"
@@ -51,9 +51,6 @@
         <div v-else class="row justify-content-center">
           <p class="my-5">Sorry, no results there...</p>
         </div>
-      </div>
-      <div class="col-md-6">
-        <router-view @refreshData="refreshList"></router-view>
       </div>
     </div>
     <!-- -->

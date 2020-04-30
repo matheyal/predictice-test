@@ -22,6 +22,11 @@ export default new Router({
           name: "customer-details",
           component: Customer,
           props: true
+        },
+        {
+          path: "/customer/add",
+          name: "add",
+          component: AddCustomer
         }
       ]
     },
@@ -29,11 +34,6 @@ export default new Router({
       path: "/albums",
       name: "albums",
       component: AlbumsList
-    },
-    {
-      path: "/add",
-      name: "add",
-      component: AddCustomer
     },
     {
       path: "/search",

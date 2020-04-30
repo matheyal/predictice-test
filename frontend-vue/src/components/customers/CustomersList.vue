@@ -37,16 +37,12 @@
                   Edit
                 </b-button>
               </router-link>
-              <router-link :to="{ name: 'customer-albums', params: { customer: row.item, id: row.item.id }}">
-                <b-button size="sm" v-b-modal.customer-albums-modal>
+                <b-button size="sm" v-on:click="openViewAlbumModal(row.item)">
                   View albums
                 </b-button>
-              </router-link>
-              <router-link :to="{ name: 'customer-add-album', params: { customer: row.item, id: row.item.id }}">
-                <b-button size="sm" v-on:click="openAddAlbumModal(row.item)">
-                  Add album
-                </b-button>
-              </router-link>
+              <b-button size="sm" v-on:click="openAddAlbumModal(row.item)">
+                Add album
+              </b-button>
             </template>
           </b-table>
         </div>
@@ -68,7 +64,13 @@
       </AlbumsSearch>
     </b-modal>
     <b-modal size="xl" id="customer-albums-modal" title="View albums" hide-footer>
-      <router-view></router-view>
+      <AlbumsSearch ref="albumsSearch"
+                    :album-ids="selectedCustomer && selectedCustomer.albums || []"
+                    :can-delete="true"
+                    v-on:on-delete="removeAlbum($event)"
+                    class="mx-4"
+      >
+      </AlbumsSearch>
     </b-modal>
   </div>
 </template>
@@ -97,32 +99,70 @@
     methods: {
       /* eslint-disable no-console */
       retrieveCustomers() {
-        http
+        return http
           .get("/customers")
           .then(response => {
             this.customers = response.data; // JSON are parsed automatically.
-            console.log(response.data);
+            if (this.selectedCustomer) {
+              this.selectedCustomer = this.customers.find(c => c.id === this.selectedCustomer.id);
+            }
           })
           .catch(e => {
             console.log(e);
           });
       },
       refreshList() {
-        this.$bvModal.hide('customer-modal');
-        this.retrieveCustomers();
+        return this.retrieveCustomers();
       },
       openAddAlbumModal(customer) {
         this.selectedCustomer = customer;
-        this.$bvModal.show('add-album-modal')
+        this.$bvModal.show('add-album-modal');
+      },
+      openViewAlbumModal(customer) {
+        this.selectedCustomer = customer;
+        this.$bvModal.show('customer-albums-modal');
       },
       addAlbum(albumId) {
+        if (!this.selectedCustomer) {
+          return;
+        }
         http.post(`/customers/${this.selectedCustomer.id}/albums`, `"${albumId}"`)
           .then(() => {
+            this.refreshList();
             this.$toasted.show(
               "Album successfully added!",
               {duration: 3000, type: "success"}
             );
-            this.$bvModal.hide('add-album-modal')
+          })
+          .catch(e => {
+            console.error(e);
+            this.$toasted.show(
+              "Oops! An error occurred...",
+              {
+                type: "error",
+                action: {
+                  text: 'OK',
+                  onClick: (e, toastObject) => {
+                    toastObject.goAway(0);
+                  }
+                }
+              }
+            );
+          })
+      },
+      removeAlbum(albumId) {
+        if (!this.selectedCustomer) {
+          return;
+        }
+        http.delete(`/customers/${this.selectedCustomer.id}/albums/${albumId}`)
+          .then(() => {
+            this.refreshList().then(() => {
+              this.$refs['albumsSearch'].refreshList();
+            });
+            this.$toasted.show(
+              "Album successfully removed from user's collection!",
+              {duration: 3000, type: "success"}
+            );
           })
           .catch(e => {
             console.error(e);

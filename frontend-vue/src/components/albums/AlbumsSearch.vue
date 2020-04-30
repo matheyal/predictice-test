@@ -56,7 +56,8 @@
     name: "AlbumsSearch",
     props: {
       canDelete: Boolean,
-      actionText: String
+      actionText: String,
+      albumIds: Array
     },
     data() {
       return {
@@ -76,6 +77,7 @@
       retrieveAlbums(query, page) {
         this.loading = true;
         let data = {
+          ids: this.albumIds,
           query: query || "",
           page: (page && page > 1) ? page - 1 : 0,
           pageSize: this.pageSize

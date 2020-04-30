@@ -91,4 +91,14 @@ public class CustomerController {
         customer.addAlbum(albumId);
         return this.repository.save(customer);
     }
+
+    @DeleteMapping("/{id}/albums/{albumId}")
+    public Customer removeAlbumFromCustomer(@PathVariable("id") long id, @PathVariable("albumId") UUID albumId) {
+        // Fetch customer
+        Customer customer = this.repository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User Not Found"));
+        // Update customer
+        customer.removeAlbum(albumId);
+        return this.repository.save(customer);
+    }
 }

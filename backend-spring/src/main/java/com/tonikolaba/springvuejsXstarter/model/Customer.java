@@ -79,6 +79,13 @@ public class Customer {
         this.albums.add(album);
     }
 
+    public void removeAlbum(UUID album) {
+        if (this.albums == null) {
+            return;
+        }
+        this.albums.remove(album);
+    }
+
     @Override
     public String toString() {
         return "Customer [id=" + id + ", name=" + name + ", age=" + age + ", active=" + active + "]";

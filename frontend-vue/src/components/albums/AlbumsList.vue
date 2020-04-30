@@ -9,7 +9,7 @@
             Add album
           </b-button>
         </div>
-        <AlbumsSearch></AlbumsSearch>
+        <AlbumsSearch ref="albumsSearch" :can-delete="true" v-on:on-delete="deleteAlbum($event)"></AlbumsSearch>
       </div>
     </div>
     <!-- -->
@@ -110,6 +110,15 @@
                 }
               }
             );
+          })
+      },
+      deleteAlbum(id) {
+        http.delete(`/albums/${id}`)
+          .then(() => {
+            this.$refs['albumsSearch'].refreshList()
+          })
+          .catch(e => {
+            console.error(e);
           })
       }
     },

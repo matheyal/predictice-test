@@ -43,7 +43,7 @@
                 </b-button>
               </router-link>
               <router-link :to="{ name: 'customer-add-album', params: { customer: row.item, id: row.item.id }}">
-                <b-button size="sm" v-b-modal.add-album-modal>
+                <b-button size="sm" v-on:click="openAddAlbumModal(row.item)">
                   Add album
                 </b-button>
               </router-link>
@@ -60,7 +60,12 @@
       <router-view @refreshData="refreshList"></router-view>
     </b-modal>
     <b-modal size="xl" id="add-album-modal" title="Add albums" hide-footer>
-      <router-view></router-view>
+      <AlbumsSearch ref="albumsSearch"
+                    action-text="Add album"
+                    v-on:on-action="addAlbum($event)"
+                    class="mx-4"
+      >
+      </AlbumsSearch>
     </b-modal>
     <b-modal size="xl" id="customer-albums-modal" title="View albums" hide-footer>
       <router-view></router-view>
@@ -70,19 +75,22 @@
 
 <script>
   import http from "../../http-common";
+  import AlbumsSearch from "../albums/AlbumsSearch";
 
 
   export default {
     name: "customers-list",
+    components: {AlbumsSearch},
     data() {
       return {
         customers: [],
+        selectedCustomer: null,
         query: "",
         fields: [
-          { key: "name", sortable: true },
-          { key: "age", sortable: true },
-          { key: "active", sortable: true },
-          { key: 'actions', label: 'Actions' }
+          {key: "name", sortable: true},
+          {key: "age", sortable: true},
+          {key: "active", sortable: true},
+          {key: 'actions', label: 'Actions'}
         ]
       };
     },
@@ -103,8 +111,34 @@
         this.$bvModal.hide('customer-modal');
         this.retrieveCustomers();
       },
-      searchCustomer(query) {
-
+      openAddAlbumModal(customer) {
+        this.selectedCustomer = customer;
+        this.$bvModal.show('add-album-modal')
+      },
+      addAlbum(albumId) {
+        http.post(`/customers/${this.selectedCustomer.id}/albums`, `"${albumId}"`)
+          .then(() => {
+            this.$toasted.show(
+              "Album successfully added!",
+              {duration: 3000, type: "success"}
+            );
+            this.$bvModal.hide('add-album-modal')
+          })
+          .catch(e => {
+            console.error(e);
+            this.$toasted.show(
+              "Oops! An error occurred...",
+              {
+                type: "error",
+                action: {
+                  text: 'OK',
+                  onClick: (e, toastObject) => {
+                    toastObject.goAway(0);
+                  }
+                }
+              }
+            );
+          })
       }
       /* eslint-enable no-console */
     },

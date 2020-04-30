@@ -20,7 +20,10 @@
             {{ album.releaseYear }}
           </b-card-text>
           <div class="row justify-content-end">
-            <b-dropdown size="sm" variant="outline-danger" no-caret>
+            <b-button v-if="actionText" v-on:click="doAction(album.id)" size="sm" class="mr-2">
+              {{ actionText }}
+            </b-button>
+            <b-dropdown v-if="canDelete" size="sm" variant="outline-danger" no-caret>
               <template v-slot:button-content>
                 <font-awesome-icon icon="trash"/>
               </template>
@@ -51,13 +54,18 @@
 
   export default {
     name: "AlbumsSearch",
+    props: {
+      canDelete: Boolean,
+      actionText: String
+    },
     data() {
       return {
         albums: [],
         query: "",
         page: 1,
         totalElements: 1,
-        pageSize: 9,}
+        pageSize: 9,
+      }
     },
     created() {
       this.search = _.debounce((query) => {
@@ -89,20 +97,16 @@
           return;
         }
         this.page = 1;
-        console.log(query);
         this.retrieveAlbums(query, this.page);
       },
       refreshList() {
         this.retrieveAlbums(this.query, this.page);
       },
       deleteAlbum(id) {
-        http.delete(`/albums/${id}`)
-          .then(() => {
-            this.refreshList()
-          })
-          .catch(e => {
-            console.error(e);
-          })
+        this.$emit('on-delete', id);
+      },
+      doAction(id) {
+        this.$emit('on-action', id);
       }
     },
     mounted() {

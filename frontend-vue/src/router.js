@@ -1,10 +1,9 @@
 import Vue from "vue";
 import Router from "vue-router";
-import CustomersList from "./components/CustomersList.vue";
-import AddCustomer from "./components/AddCustomer.vue";
-import SearchCustomers from "./components/SearchCustomers.vue";
-import Customer from "./components/Customer.vue";
-import AlbumsList from "./components/AlbumsList";
+import CustomersList from "./components/customers/CustomersList.vue";
+import AddCustomer from "./components/customers/AddCustomer.vue";
+import Customer from "./components/customers/Customer.vue";
+import AlbumsList from "./components/albums/AlbumsList";
 
 Vue.use(Router);
 
@@ -24,6 +23,18 @@ export default new Router({
           props: true
         },
         {
+          path: "/customer/:id/albums",
+          name: "customer-albums",
+          component: AlbumsList,
+          props: true
+        },
+        {
+          path: "/customer/:id/albums/add",
+          name: "customer-add-album",
+          component: AlbumsList,
+          props: true
+        },
+        {
           path: "/customer/add",
           name: "add",
           component: AddCustomer
@@ -34,11 +45,6 @@ export default new Router({
       path: "/albums",
       name: "albums",
       component: AlbumsList
-    },
-    {
-      path: "/search",
-      name: "search",
-      component: SearchCustomers
     }
   ]
 });

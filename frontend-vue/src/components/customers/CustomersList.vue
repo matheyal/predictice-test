@@ -5,7 +5,7 @@
         <div class="row justify-content-between">
           <h4>Customers List</h4>
           <router-link :to="{name: 'add'}">
-            <b-button variant="primary" v-b-modal.customer-modal>
+            <b-button variant="primary" v-b-modal.add-customer-modal>
               <font-awesome-icon icon="plus"/>
               Add user
             </b-button>
@@ -24,7 +24,7 @@
                    :items="customers"
                    :fields="fields"
                    :filter="query"
-                   filterIncludedFields="name"
+                   :filterIncludedFields="['name']"
                    primary-key="id">
             <template v-slot:cell(active)="data">
               <font-awesome-icon v-if="data.value" icon="check"/>
@@ -33,13 +33,18 @@
 
             <template v-slot:cell(actions)="row">
               <router-link :to="{ name: 'customer-details', params: { customer: row.item, id: row.item.id }}">
-                <b-button size="sm" v-b-modal.customer-modal>
+                <b-button size="sm" v-b-modal.edit-customer-modal>
                   Edit
                 </b-button>
               </router-link>
-              <router-link :to="{ name: 'customer-albums', params: { customer: row.item }}">
-                <b-button size="sm" v-b-modal.customer-modal>
-                  Albums
+              <router-link :to="{ name: 'customer-albums', params: { customer: row.item, id: row.item.id }}">
+                <b-button size="sm" v-b-modal.customer-albums-modal>
+                  View albums
+                </b-button>
+              </router-link>
+              <router-link :to="{ name: 'customer-add-album', params: { customer: row.item, id: row.item.id }}">
+                <b-button size="sm" v-b-modal.add-album-modal>
+                  Add album
                 </b-button>
               </router-link>
             </template>
@@ -48,14 +53,23 @@
       </div>
     </div>
     <!-- -->
-    <b-modal id="customer-modal" title="Add customer" hide-footer>
+    <b-modal id="add-customer-modal" title="Add customer" hide-footer>
       <router-view @refreshData="refreshList"></router-view>
+    </b-modal>
+    <b-modal id="edit-customer-modal" title="Edit customer" hide-footer>
+      <router-view @refreshData="refreshList"></router-view>
+    </b-modal>
+    <b-modal size="xl" id="add-album-modal" title="Add albums" hide-footer>
+      <router-view></router-view>
+    </b-modal>
+    <b-modal size="xl" id="customer-albums-modal" title="View albums" hide-footer>
+      <router-view></router-view>
     </b-modal>
   </div>
 </template>
 
 <script>
-  import http from "../http-common";
+  import http from "../../http-common";
 
 
   export default {

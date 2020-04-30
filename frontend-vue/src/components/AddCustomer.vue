@@ -60,7 +60,8 @@
           .post("/customers", data)
           .then(response => {
             this.customer.id = response.data.id;
-            console.log(response.data);
+            this.$emit("refreshData");
+            this.$router.go(-1);
           })
           .catch(e => {
             console.log(e);

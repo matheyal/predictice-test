@@ -5,7 +5,7 @@
         <div class="row justify-content-between">
           <h4>Customers List</h4>
           <router-link :to="{name: 'add'}">
-            <b-button variant="primary" v-b-modal.add-customer-modal>
+            <b-button variant="primary" v-b-modal.customer-modal>
               <font-awesome-icon icon="plus"/>
               Add user
             </b-button>
@@ -20,23 +20,35 @@
     <div class="row justify-content-center">
       <div class="col-md-12">
         <div v-if="customers && customers.length > 0">
-          <ul>
-            <ol v-for="(customer, index) in customers" :key="index">
-              <router-link :to="{
-                            name: 'customer-details',
-                            params: { customer: customer, id: customer.id }
-                        }"
-                        v-b-modal.add-customer-modal>
-                <font-awesome-icon icon="user"/>
-                {{customer.name}}
+          <b-table hover
+                   :items="customers"
+                   :fields="fields"
+                   :filter="query"
+                   filterIncludedFields="name"
+                   primary-key="id">
+            <template v-slot:cell(active)="data">
+              <font-awesome-icon v-if="data.value" icon="check"/>
+              <font-awesome-icon v-else icon="times"/>
+            </template>
+
+            <template v-slot:cell(actions)="row">
+              <router-link :to="{ name: 'customer-details', params: { customer: row.item, id: row.item.id }}">
+                <b-button size="sm" v-b-modal.customer-modal>
+                  Edit
+                </b-button>
               </router-link>
-            </ol>
-          </ul>
+              <router-link :to="{ name: 'customer-albums', params: { customer: row.item }}">
+                <b-button size="sm" v-b-modal.customer-modal>
+                  Albums
+                </b-button>
+              </router-link>
+            </template>
+          </b-table>
         </div>
       </div>
     </div>
     <!-- -->
-    <b-modal id="add-customer-modal" title="Add customer" hide-footer>
+    <b-modal id="customer-modal" title="Add customer" hide-footer>
       <router-view @refreshData="refreshList"></router-view>
     </b-modal>
   </div>
@@ -51,7 +63,13 @@
     data() {
       return {
         customers: [],
-        query: ""
+        query: "",
+        fields: [
+          { key: "name", sortable: true },
+          { key: "age", sortable: true },
+          { key: "active", sortable: true },
+          { key: 'actions', label: 'Actions' }
+        ]
       };
     },
     methods: {
@@ -68,6 +86,7 @@
           });
       },
       refreshList() {
+        this.$bvModal.hide('customer-modal');
         this.retrieveCustomers();
       },
       searchCustomer(query) {

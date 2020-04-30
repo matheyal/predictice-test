@@ -1,6 +1,4 @@
-#  Spring Boot :heavy_plus_sign: Vue.js :x: Starter 
-
-![alt text](frontend-vue/src/assets/logo.png)
+#  Predictice technical test
 
 ### :telescope: Demo
 ![alt text](screenshot/1.png)
@@ -8,67 +6,60 @@
 ![alt text](screenshot/3.png)
 ![alt text](screenshot/4.png)
 
-### :octocat: :open_file_folder: Tech :
+### Requirements
 
-- Spring Boot
-- Vue.js
-- Node.js
-- Maven
-- Bootstrap-Vue
-- Fontawesome-Vue
-- H2 Database
-- Java
-- Webpack
-
-
-### Before start
-
-Project requires [Node.js](https://nodejs.org/) v4+ to run. Before you started using this project make sure you have installed this programs in your computer:
+Before you started using this project make sure you have installed this programs in your computer:
 
 * [Java](https://www.oracle.com/java/) - is the world’s #1 programming language.
-* [Node.js](https://nodejs.org/en/) - Node.js® is a JavaScript runtime built on [Chrome's V8 JavaScript engine](https://v8.dev/).
+* [Node.js](https://nodejs.org/en/) - Node.js® is a JavaScript runtime.
 * [Maven](https://maven.apache.org/) - is a software project management and comprehension tool.
-* [H2 Database](http://h2database.com) - the Java SQL database (not nececary request).
-* Read some information about [Spring Boot Framework](https://spring.io/projects/spring-boot)
+* [H2 Database](http://h2database.com) - the Java SQL database.
+* [Elasticsearch](https://www.elastic.co/elasticsearch/) - a RESTful search engine
+* [Docker](https://www.docker.com/) - The famous containerization software
 
 
-### :open_file_folder: Project
+### Running the project locally
 
-Project is currently extended with the following plugins. Instructions on how to use them in your own application are linked below.
+#### Elasticsearch
 
-| spring-vuejsxstarter | README |
-| ------ | ------ |
-| spring-vuejsxstarter | [/README.md][PlDb] |
-| backend-spring | [backend-spring/README.md][PlGh] |
-| frontend-vue | [frontend-vue/README.md][PlGd] |
-
-
-   [PlDb]: <https://github.com/tonikolaba/spring-vuejsxstarter/README.md>
-   [PlGh]: <https://github.com/tonikolaba/spring-vuejsxstarter/backend-spring/README.md>
-   [PlGd]: <https://github.com/tonikolaba/spring-vuejsxstarter/frontend-vue/README.md>
-
-
-### :computer: Installation
-
-
-:heavy_dollar_sign: git clone https://github.com/tonikolaba/spring-vuejsxstarter.git 
+To run this project, you need a running instance of Elasticsearch. The easiest is to run it with docker:
 
 ```sh
-# open folder frontend-vue in CMD and install dependencies:
-npm install
-# serve with hot reload at localhost:4200 and let it run
-npm run dev
-#open Broweser
-127.0.0.1:4200 or http://localhost:4200
-# open main project in CMD and Install all dependeci in both projects:
-mvn install
-# runnig backend project and run:
-mvn --projects backend spring-boot:run
+docker run -d \
+  --name elasticsearch \
+  -p 9200:9200 -p 9300:9300 \
+  -e "discovery.type=single-node" \
+  --mount source=elasticsearch-data,target=/usr/share/elasticsearch/data \
+  docker.elastic.co/elasticsearch/elasticsearch:7.5.2
 ```
 
+You can then query the instance at http://localhost:9200
 
-### Developer
+#### Loading sample data into Elasticsearch
 
-* **Toni Kolaba** - *Initial work* - [tonikolaba](https://github.com/tonikolaba)
+This app is quite boring without a decent amount of albums stored into elasticsearch.
 
-![Alt text](https://github.com/tonikolaba/download/blob/master/info/artofsoullogoNewVOG.png)
+Don't worry I've got you covered! 
+
+Once you have a local instance of elasticsearch running, simply run this from the root of the repo:
+```sh
+./load-albums.py
+```
+
+#### Backend
+
+For the backend, simply run the following:
+```sh
+./mvnw -pl backend-spring spring-boot:run
+```
+
+#### Frontend
+
+For the frontend, run the following:
+```sh
+cd frontend-vue
+npm install
+npm run dev
+```
+
+Once everything is up and running, go to http://localhost:4200/ and enjoy!

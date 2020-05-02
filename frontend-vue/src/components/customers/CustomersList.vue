@@ -12,7 +12,7 @@
           </router-link>
         </div>
         <div class="row my-3">
-          <b-form-input v-model="query" v-on:input="searchCustomer($event)"
+          <b-form-input v-model="query"
                         placeholder="Search a customer"></b-form-input>
         </div>
       </div>

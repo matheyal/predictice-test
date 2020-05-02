@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="row my-3">
+    <div class="row my-3 justify-content-center">
       <b-form-input v-model="query" v-on:input="search($event)"
                     placeholder="Search an album"></b-form-input>
     </div>
@@ -118,5 +118,7 @@
 </script>
 
 <style scoped>
-
+  .album-card {
+    max-width: 300px;
+  }
 </style>

@@ -128,7 +128,4 @@
 </script>
 
 <style>
-  .album-card {
-    max-width: 300px;
-  }
 </style>

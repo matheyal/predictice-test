@@ -19,7 +19,7 @@ docker network create predictice
 # Start elasticsearch
 docker run -d --rm \
   --name elasticsearch \
-  --network elasticsearch \
+  --network predictice \
   -p 9200:9200 -p 9300:9300 \
   -e "discovery.type=single-node" \
   --mount source=elasticsearch-data,target=/usr/share/elasticsearch/data \
@@ -37,7 +37,9 @@ The project has been built into a docker image that you can run as follows:
 ```shell script
 # 1. Make sure that you run the above commands to have a running elasticsearch instance
 # 2. Start the app (frontend files are served by the spring app)
-docker run --network predictice \
+docker run -d --rm \
+  --name predictice-test \
+  --network predictice \
   -v $PWD/backend-spring/application-docker.properties:/application.properties \
   -p 8080:8080 \
   amathey/predictice-test:1.0-SNAPSHOT
@@ -94,7 +96,9 @@ This app is quite boring without a decent amount of albums stored into elasticse
 
 Don't worry I've got you covered!
 
-Once you have a local instance of elasticsearch running, simply run this from the root of the repo:
+Once you have a local instance of elasticsearch running and you have started the backend app, run this from the root of the repo:
 ```shell script
 ./load-albums.py
 ```
+
+> The data comes from this project: https://www.upf.edu/web/mtg/mard

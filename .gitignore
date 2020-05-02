@@ -1,6 +1,7 @@
 .idea/
-backend-spring/target/
+target/
 frontend-vue/node/
+backend-spring/src/main/resources/public/
 
 frontend-vue/src/components/HelloWorld.vue
 frontend-vue/src/components/HelloWorld.vue

@@ -4,7 +4,10 @@ import com.tonikolaba.springvuejsXstarter.AbstractSpringTest;
 import com.tonikolaba.springvuejsXstarter.dto.SearchQuery;
 import com.tonikolaba.springvuejsXstarter.model.Album;
 import com.tonikolaba.springvuejsXstarter.repository.AlbumRepository;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 
@@ -14,13 +17,20 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class AlbumServiceTestAbstract extends AbstractSpringTest {
+public class AlbumServiceTest extends AbstractSpringTest {
 
     @Autowired
     private AlbumService service;
 
     @Autowired
     private AlbumRepository repository;
+
+    @Before
+    @After
+    public void clean() {
+        this.repository.deleteAll();
+        this.repository.refresh();
+    }
 
     @Test
     public void testSave() {
